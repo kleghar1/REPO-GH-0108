@@ -1,0 +1,63 @@
+LON:
+-----
+router rip
+ network 1.0.0.0
+ network 10.0.0.0
+ version 2
+ no auto-summary
+ passive-interface gi0/2
+ default-information originate ; pushes a default route into the network (assuming this router has internet breakout)
+
+NYK:
+----
+router rip
+ network 2.0.0.0
+ network 10.0.0.0
+ version 2
+ no auto-summary
+ passive-interface gi0/2
+
+PAR:
+---
+router rip
+ network 3.0.0.0
+ network 10.0.0.0
+ version 2
+ no auto-summary
+ passive-interface gi0/2
+
+DUB:
+---
+router rip
+ network 4.0.0.0
+ network 10.0.0.0
+ version 2
+ no auto-summary
+ passive-interface gi0/2
+
+Verification:
+-------------
+
+- PCs at all sites should ping each other
+- Routing table output should show you 5 RIP routes (seen as "R" in the routing-table)
+
+=========================================
+
+Decommission/Roll-back:
+----------------------
+
+no router rip ; to remove the entire RIP process
+
+router rip
+ no network 1.0.0.0 ; same for any other route that needs to be removed from advertisment
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+sh ip rip database
+
+sh ip route rip
+
+sh ip protocol
+
+clear ip route * ; to clear the routing table
+
